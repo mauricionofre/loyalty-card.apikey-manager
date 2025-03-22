@@ -1,0 +1,14 @@
+<header class="header">
+  <h1>API Key Manager</h1>
+  <div class="profile-section">
+    <button class="profile-button" (click)="toggleDropdown($event)">
+      <div class="avatar">
+        {{ getUserInitials() }}
+      </div>
+      <span>{{ username }}</span>
+    </button>
+    <div class="dropdown-menu" *ngIf="isDropdownOpen">
+      <button (click)="logout()"><mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>Logout</button>
+    </div>
+  </div>
+</header>

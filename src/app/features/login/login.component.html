@@ -1,0 +1,36 @@
+<div class="login-container">
+  <div class="login-card">
+    <h2>Login</h2>
+    <!-- Add test credentials helper -->
+    <div class="test-credentials">
+      <p>Test credentials:</p>
+      <code>Email: adminexample.com</code><br>
+      <code>Password: admin123</code>
+    </div>
+    
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email" 
+          placeholder="Enter your email"
+        >
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          formControlName="password" 
+          placeholder="Enter your password"
+        >
+      </div>
+      <button type="submit" [disabled]="!loginForm.valid || isLoading">
+        {{ isLoading ? 'Loading...' : 'Login' }}
+      </button>
+      <div class="error" *ngIf="error">{{ error }}</div>
+    </form>
+  </div>
+</div>

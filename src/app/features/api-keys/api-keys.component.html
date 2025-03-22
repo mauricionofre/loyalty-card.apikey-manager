@@ -1,0 +1,38 @@
+<div class="api-keys-container">
+  <div class="header">
+    <h1>API Keys</h1>
+    <button class="create-key" (click)="showModal = true">Create New API Key</button>
+  </div>
+
+  <div class="grid-container">
+    <div class="grid-header">
+      <div class="col">API Key</div>
+      <div class="col">Name</div>
+      <div class="col">Expire At</div>
+      <div class="col">Action</div>
+    </div>
+
+    <div class="grid-body">
+      <div class="grid-row" *ngFor="let key of paginatedKeys">
+        <div class="col"><code>{{key.key}}</code></div>
+        <div class="col">{{key.name}}</div>
+        <div class="col">{{key.expiresAt | date}}</div>
+        <div class="col">
+          <button class="delete-btn" (click)="deleteKey(key.id)">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pagination">
+    <button [disabled]="currentPage === 1" (click)="previousPage()">Previous</button>
+    <span>Page {{currentPage}} of {{totalPages}}</span>
+    <button [disabled]="currentPage === totalPages" (click)="nextPage()">Next</button>
+  </div>
+
+  <app-add-key-modal 
+    *ngIf="showModal" 
+    (close)="showModal = false"
+    (create)="createKey($event)">
+  </app-add-key-modal>
+</div>

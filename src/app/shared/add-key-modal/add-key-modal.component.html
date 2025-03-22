@@ -1,0 +1,24 @@
+<div class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Create New API Key</h2>
+      <button class="close-btn" (click)="onClose()">×</button>
+    </div>
+    <div class="modal-body">
+      <form (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" [(ngModel)]="newKey.name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="expiresAt">Expires At</label>
+          <input type="date" id="expiresAt" [(ngModel)]="newKey.expiresAt" name="expiresAt" required>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="cancel-btn" (click)="onClose()">Cancel</button>
+          <button mat-button type="submit" class="create-btn">Create Key</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
