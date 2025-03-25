@@ -58,6 +58,18 @@
   }
 }
 
+input.invalid {
+  border-color: #dc3545;
+  background-color: #fff;
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+  }
+}
+
+.hint-text.error {
+  color: #dc3545;
+}
+
 .modal-footer {
   margin-top: 20px;
   display: flex;

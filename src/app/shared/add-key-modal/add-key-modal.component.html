@@ -8,15 +8,30 @@
       <form (ngSubmit)="onSubmit()">
         <div class="form-group">
           <label for="name">Name</label>
-          <input type="text" id="name" [(ngModel)]="newKey.name" name="name" required>
+          <input 
+            type="text" 
+            id="name" 
+            [(ngModel)]="newKey.name" 
+            name="name"
+            [class.invalid]="!isValidName()" 
+            required>
+          <small class="hint-text" [class.error]="!isValidName()">Name must be at least 3 characters long</small>
         </div>
         <div class="form-group">
           <label for="expiresAt">Expires At</label>
-          <input type="date" id="expiresAt" [(ngModel)]="newKey.expiresAt" name="expiresAt" required>
+          <input 
+            type="date" 
+            id="expiresAt" 
+            [(ngModel)]="newKey.expiresAt" 
+            name="expiresAt" 
+            [min]="minExpiryDate"
+            [class.invalid]="!isValidDate()"
+            required>
+          <small class="hint-text" [class.error]="!isValidDate()">Expiration date must be at least 30 days from today</small>
         </div>
         <div class="modal-footer">
           <button type="button" class="cancel-btn" (click)="onClose()">Cancel</button>
-          <button mat-button type="submit" class="create-btn">Create Key</button>
+          <button mat-button type="submit" class="create-btn" [disabled]="!isValidDate() || !isValidName()">Create Key</button>
         </div>
       </form>
     </div>
