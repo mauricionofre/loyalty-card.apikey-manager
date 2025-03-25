@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -15,8 +15,11 @@ interface NewApiKey {
   styleUrls: ['./add-key-modal.component.scss']
 })
 export class AddKeyModalComponent implements OnInit {
+  @Input() mode: 'create' | 'edit' = 'create';
+  @Input() initialData?: { name: string, expiresAt: string };
   @Output() close = new EventEmitter<void>();
   @Output() create = new EventEmitter<NewApiKey>();
+  @Output() edit = new EventEmitter<NewApiKey>();
 
   newKey: NewApiKey = {
     name: '',
@@ -30,7 +33,12 @@ export class AddKeyModalComponent implements OnInit {
     const thirtyDaysLater = new Date(today);
     thirtyDaysLater.setDate(today.getDate() + 30);
     this.minExpiryDate = this.formatDateForInput(thirtyDaysLater);
-    this.newKey.expiresAt = this.minExpiryDate;
+    
+    if (this.mode === 'edit' && this.initialData) {
+      this.newKey = { ...this.initialData };
+    } else {
+      this.newKey.expiresAt = this.minExpiryDate;
+    }
   }
   
   formatDateForInput(date: Date): string {
@@ -55,10 +63,18 @@ export class AddKeyModalComponent implements OnInit {
   }
 
   onSubmit() {
-    if (!this.isValidDate() || !this.isValidName()) {
+    if (!this.isValidName()) {
       return;
     }
-    this.create.emit(this.newKey);
+    if (this.mode === 'create' && !this.isValidDate()) {
+      return;
+    }
+    
+    if (this.mode === 'edit') {
+      this.edit.emit(this.newKey);
+    } else {
+      this.create.emit(this.newKey);
+    }
     this.onClose();
   }
 }

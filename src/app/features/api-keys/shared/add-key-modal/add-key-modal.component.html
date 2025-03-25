@@ -1,7 +1,7 @@
 <div class="modal-overlay">
   <div class="modal">
     <div class="modal-header">
-      <h2>Create New API Key</h2>
+      <h2>{{ mode === 'create' ? 'Create New API Key' : 'Edit API Key' }}</h2>
       <button class="close-btn" (click)="onClose()">×</button>
     </div>
     <div class="modal-body">
@@ -17,7 +17,7 @@
             required>
           <small class="hint-text" [class.error]="!isValidName()">Name must be at least 3 characters long</small>
         </div>
-        <div class="form-group">
+        <div class="form-group" *ngIf="mode === 'create'">
           <label for="expiresAt">Expires At</label>
           <input 
             type="date" 
@@ -31,7 +31,10 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="cancel-btn" (click)="onClose()">Cancel</button>
-          <button mat-button type="submit" class="create-btn" [disabled]="!isValidDate() || !isValidName()">Create Key</button>
+          <button mat-button type="submit" class="create-btn" 
+            [disabled]="!isValidName() || (mode === 'create' && !isValidDate())">
+            {{ mode === 'create' ? 'Create Key' : 'Save Changes' }}
+          </button>
         </div>
       </form>
     </div>

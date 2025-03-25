@@ -8,6 +8,7 @@
     <div class="grid-header">
       <div class="col">API Key</div>
       <div class="col">Name</div>
+      <div class="col">Created By</div>
       <div class="col">Expire At</div>
       <div class="col">Action</div>
     </div>
@@ -16,9 +17,11 @@
       <div class="grid-row" *ngFor="let key of paginatedKeys">
         <div class="col"><code>{{key.key}}</code></div>
         <div class="col">{{key.name}}</div>
+        <div class="col">{{key.createdBy}}</div>
         <div class="col">{{key.expiresAt | date}}</div>
         <div class="col">
-          <button class="delete-btn" (click)="deleteKey(key.id)">Delete</button>
+          <mat-icon class="edit-icon" (click)="editKey(key)">drive_file_rename_outline</mat-icon>
+          <mat-icon class="delete-icon" (click)="deleteKey(key.id)">delete</mat-icon>
         </div>
       </div>
     </div>
@@ -32,7 +35,10 @@
 
   <app-add-key-modal 
     *ngIf="showModal" 
-    (close)="showModal = false"
-    (create)="createKey($event)">
+    [mode]="modalMode"
+    [initialData]="selectedKey ? { name: selectedKey.name, expiresAt: '' } : undefined"
+    (close)="closeModal()"
+    (create)="createKey($event)"
+    (edit)="onEdit($event)">
   </app-add-key-modal>
 </div>
