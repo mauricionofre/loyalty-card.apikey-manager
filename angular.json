@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "apikey-manager2": {
+    "apikey-manager": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/apikey-manager2",
+            "outputPath": "dist/apikey-manager",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "apikey-manager2:build:production"
+              "buildTarget": "apikey-manager:build:production"
             },
             "development": {
-              "buildTarget": "apikey-manager2:build:development"
+              "buildTarget": "apikey-manager:build:development"
             }
           },
           "defaultConfiguration": "development"
