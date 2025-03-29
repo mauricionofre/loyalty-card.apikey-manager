@@ -1,6 +1,8 @@
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap, catchError, throwError } from 'rxjs';
 import { User } from '../../features/login/models/user.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,13 +11,10 @@ export class AuthService {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
-  // Mock users data
-  private readonly mockUsers: User[] = [
-    { id: 1, email: 'admin@example.com', password: 'admin123', token: 'mock-jwt-token-1' },
-    { id: 2, email: 'user@example.com', password: 'user123', token: 'mock-jwt-token-2' }
-  ];
+  // API base URL from environment
+  private apiUrl = environment.apiUrl;
 
-  constructor() {
+  constructor(private http: HttpClient) {
     const savedUser = localStorage.getItem('currentUser');
     if (savedUser) {
       this.currentUserSubject.next(JSON.parse(savedUser));
@@ -23,25 +22,22 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<User> {
-    // Simulate API call delay
-    return new Observable(subscriber => {
-      setTimeout(() => {
-        const user = this.mockUsers.find(u => u.email === email && u.password === password);
-        
-        if (user) {
-          // Clone user object and remove password for security
-          const userResponse = { ...user };
-          delete userResponse.password;
-          
-          localStorage.setItem('currentUser', JSON.stringify(userResponse));
-          this.currentUserSubject.next(userResponse);
-          subscriber.next(userResponse);
-        } else {
-          subscriber.error('Invalid email or password');
-        }
-        subscriber.complete();
-      }, 1000); // Simulate 1 second delay
-    });
+    return this.http.post<User>(`${this.apiUrl}/Auth/login`, { email, password })
+      .pipe(
+        tap(user => {
+          // Store user details and jwt token in local storage to keep user logged in
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          this.currentUserSubject.next(user);
+        }),
+        catchError((error: HttpErrorResponse) => {
+          // Check if it's a 401 Unauthorized (invalid credentials)
+          if (error.status === 401) {
+            return throwError(() => 'Invalid email or password');
+          }
+          // For other errors
+          return throwError(() => 'Login failed. Please try again later.');
+        })
+      );
   }
 
   logout(): void {
