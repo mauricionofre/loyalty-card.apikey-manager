@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { LoginComponent } from './features/login/login.component';
 import { ApiKeysComponent } from './features/api-keys/api-keys.component';
+import { TokensComponent } from './features/tokens/tokens.component';
 import { loggedInGuard } from './core/guards/logged-in.guard';
 import { authGuard } from './core/guards/auth.guard';
 
@@ -18,6 +19,7 @@ export const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },
       { path: 'keys', component: ApiKeysComponent },
+      { path: 'tokens', component: TokensComponent }
       // outras rotas protegidas aqui
     ]
   },
