@@ -1,5 +1,24 @@
 @use '@angular/material' as mat;
 
+// Importações existentes
+
+/* Variáveis globais */
+:root {
+  // Cores principais da aplicação
+  --primary-color: #3f51b5;
+  --accent-color: #ff4081;
+  --warn-color: #f44336;
+  --text-color: #333333;
+  --background-color: #fafafa;
+  
+  // Espaçamento
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+}
+
 html {
   color-scheme: light;
   @include mat.theme((
@@ -7,6 +26,14 @@ html {
     typography: Roboto,
     density: 0
   ));
+}
+
+/* Estilos de reset */
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  color: var(--text-color);
+  background-color: var(--background-color);
 }
 
 body {
@@ -31,6 +58,94 @@ body {
 html, body { 
   height: 100%;
   margin: 0;
+}
+
+/* Classes utilitárias de layout */
+.flex-container {
+  display: flex;
+}
+
+.flex-row {
+  @extend .flex-container;
+  flex-direction: row;
+}
+
+.flex-column {
+  @extend .flex-container;
+  flex-direction: column;
+}
+
+.center {
+  justify-content: center;
+  align-items: center;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.align-center {
+  align-items: center;
+}
+
+/* Margens e paddings comuns */
+.m-xs { margin: var(--spacing-xs); }
+.m-sm { margin: var(--spacing-sm); }
+.m-md { margin: var(--spacing-md); }
+.m-lg { margin: var(--spacing-lg); }
+.m-xl { margin: var(--spacing-xl); }
+
+.mt-xs { margin-top: var(--spacing-xs); }
+.mt-sm { margin-top: var(--spacing-sm); }
+.mt-md { margin-top: var(--spacing-md); }
+.mt-lg { margin-top: var(--spacing-lg); }
+.mt-xl { margin-top: var(--spacing-xl); }
+
+.mb-xs { margin-bottom: var(--spacing-xs); }
+.mb-sm { margin-bottom: var(--spacing-sm); }
+.mb-md { margin-bottom: var(--spacing-md); }
+.mb-lg { margin-bottom: var(--spacing-lg); }
+.mb-xl { margin-bottom: var(--spacing-xl); }
+
+/* Estilos de texto comuns */
+.text-center {
+  text-align: center;
+}
+
+.text-bold {
+  font-weight: 500;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.text-md {
+  font-size: 1rem;
+}
+
+.text-lg {
+  font-size: 1.25rem;
+}
+
+.text-xl {
+  font-size: 1.5rem;
+}
+
+/* Estilos de cartões */
+.card {
+  padding: var(--spacing-md);
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+/* Estilos de botões */
+.action-button {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 html, body { height: 100%; }
